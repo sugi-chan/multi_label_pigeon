@@ -27,4 +27,4 @@ Code:
 
 Preview:
 
-.. image:: https://imgur.com/GNLyTCI
+![alt text](/assets/sample_usage.gif)
