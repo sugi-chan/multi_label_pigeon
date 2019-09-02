@@ -8,6 +8,10 @@ The base package does single class annotations for images, text, and regression.
 I frequently find myself working on problems which are multi-class or multi-label.
 So I built an additional function to do multi-label image annotation.
 
+## Notes
+__________
+As of now I just have this as a repo... so to use it you can clone it and either run notebooks from inside it and use the below format or modify the imports to point at the directory containing the annotation script.
+
 
 Examples
 -----
