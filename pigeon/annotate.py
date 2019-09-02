@@ -142,7 +142,6 @@ def annotate(examples,
 def multi_label_annotate(examples,
                          options=None,
                          shuffle=False,
-                         include_skip=True,
                          display_fn=display):
     """
     Build an interactive widget for annotating a list of input examples.
@@ -150,23 +149,22 @@ def multi_label_annotate(examples,
     Parameters
     ----------
     examples: list(any), list of items to annotate
-    options: list(any) or tuple(start, end, [step]) or None
-             if list: list of labels for binary classification task (Dropdown or Buttons)
-             if tuple: range for regression task (IntSlider or FloatSlider)
-             if None: arbitrary text input (TextArea)
+    options: Dict
+        dictionary of category names and category classes
+        ex {'gender':['male, female, unisex']}
     shuffle: bool, shuffle the examples before annotating
-    include_skip: bool, include option to skip example while annotating
     display_fn: func, function for displaying an example to the user
 
     Returns
     -------
-    annotations : list of tuples, list of annotated examples (example, label)
+    annotations : dict of dicts, dict of annotated examples
+        (example, {task:label... label,task2:label})
     """
     examples = list(examples)
     if shuffle:
         random.shuffle(examples)
 
-    annotation_dict ={}
+    annotation_dict = {}
 
     current_index = -1
 
@@ -212,12 +210,15 @@ def multi_label_annotate(examples,
             display_fn(examples[current_index])
             del annotation_dict[examples[current_index]]
 
-    def add_annotation(annotation_dict, annotation):
-
+    def add_annotation(annotation_dict, annotation, task_name):
         if examples[current_index] in annotation_dict.keys():
-            annotation_dict[examples[current_index]].append(annotation)
+            if task_name not in annotation_dict[examples[current_index]].keys():
+                annotation_dict[examples[current_index]][task_name] = [annotation]
+            else:
+                annotation_dict[examples[current_index]][task_name].append(annotation)
         else:
-            annotation_dict[examples[current_index]] = [annotation]
+            annotation_dict[examples[current_index]] = {}
+            annotation_dict[examples[current_index]][task_name] = [annotation]
         # show_next()
 
     def skip(btn):
@@ -236,23 +237,22 @@ def multi_label_annotate(examples,
     set_label_text()
     display(count_label)
 
-    if type(options) == list or type(options) == dict:
+    if type(options) == dict:
         task_type = 'classification'
-    elif type(options) == tuple and len(options) in [2, 3]:
-        task_type = 'regression'
-    elif options is None:
-        task_type = 'captioning'
     else:
         raise Exception('Invalid options')
 
     if task_type == 'classification':
         for key, value in options.items():
             buttons = []
-            print(key)
+            #print(key)
             for label in value:
-                btn = Button(description=label)
+                btn = Button(description=key+':'+label)
+                #print(label, key)
                 def on_click(label, btn):
-                    add_annotation(annotation_dict, label)
+                    task_name = btn.description.split(':')[0]
+                    annotation = btn.description.split(':')[-1]
+                    add_annotation(annotation_dict, annotation, task_name)
                 btn.on_click(functools.partial(on_click, label))
                 buttons.append(btn)
             box = HBox(buttons)
@@ -278,3 +278,7 @@ def multi_label_annotate(examples,
     show_next()
 
     return annotation_dict
+
+
+#class MultiLabelButton():
+

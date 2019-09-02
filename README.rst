@@ -1,57 +1,30 @@
-🐦 pigeon - Quickly annotate data on Jupyter
+🐦 multi_class_pigeon - Quickly annotate data on Jupyter
 ========================
 
-Pigeon is a simple widget that lets you quickly annotate a dataset of
-unlabeled examples from the comfort of your Jupyter notebook.
+This repo is a simple multiclass image extenstion of the pigeon repo by
+@agermanidis located [here](https://github.com/agermanidis/pigeon)
 
-Pigeon currently supports annotation for classification tasks (set of
-labels), regression tasks (int/float range), or captioning tasks
-(variable-length text). Anything that can be displayed on Jupyter
-(text, images, audio, graphs, etc.) can be displayed by pigeon
-by providing the appropriate :code:`display_fn` argument.
+The base package does single class annotations for images, text, and regression. 
+I frequently find myself working on problems which are multi-class or multi-label.
+So I built an additional function to do multi-label image annotation.
 
-Installation
------
-
-.. code-block:: bash
-
-    pip install pigeon-jupyter
 
 Examples
 -----
 
-- Text classification
-
 Code: 
 
 .. code-block:: python
 
-    from pigeon import annotate
-    annotations = annotate(
-      ['I love this movie', 'I was really disappointed by the book'],
-      options=['positive', 'negative']
-    )
-
-
-Preview:
-
-.. image:: http://i.imgur.com/00ry4Li.gif
-
-- Image classification
-
-Code: 
-
-.. code-block:: python
-
-    from pigeon import annotate
+    from pigeon import multi_label_annotate
     from IPython.display import display, Image
 
-    annotations = annotate(
-      ['assets/img_example1.jpg', 'assets/img_example2.jpg'],
-      options=['cat', 'dog', 'horse'],
+    annotations = multi_label_annotate(
+      ['assets/altera.jpg', 'assets/chibi_gil.jpg','assets/chibi_saber.jpg'],
+      options={'cute':['yes','no'], 'saber':['yes','no'],'colors':['blue','gold','white','red']},
       display_fn=lambda filename: display(Image(filename))
     )
 
 Preview:
 
-.. image:: http://i.imgur.com/PiE3eDt.gif
+.. image:: https://imgur.com/GNLyTCI
