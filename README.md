@@ -27,4 +27,4 @@ Code:
 
 Preview:
 
-![alt text](/assets/sample_usage2.gif)
+![alt text](/assets/sample_usage3.gif)
