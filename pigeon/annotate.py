@@ -245,16 +245,14 @@ def multi_label_annotate(examples,
     if task_type == 'classification':
         for key, value in options.items():
             buttons = []
-            #print(key)
+            print(key)
             for label in value:
-                btn = Button(description=key+':'+label)
+                btn = MultiLabelButton(description=label, task_name=key)
                 #print(label, key)
-                def on_click(label, btn):
-                    task_name = btn.description.split(':')[0]
-                    annotation = btn.description.split(':')[-1]
-                    add_annotation(annotation_dict, annotation, task_name)
-                btn.on_click(functools.partial(on_click, label))
-                buttons.append(btn)
+                def on_click(label, task_name, btn):
+                    add_annotation(annotation_dict, label, task_name)
+                btn.button.on_click(functools.partial(on_click, label,btn.task_name))
+                buttons.append(btn.button)
             box = HBox(buttons)
             display(box)
     print('')
@@ -280,5 +278,9 @@ def multi_label_annotate(examples,
     return annotation_dict
 
 
-#class MultiLabelButton():
+class MultiLabelButton(object):
 
+    def __init__(self, description, task_name):
+        self.description = description
+        self.task_name = task_name
+        self.button = Button(description=description)
