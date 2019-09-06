@@ -32,9 +32,11 @@ Preview:
 
 ## Additional Notes
 ____
+- `skip` readded the old skip button for clarity. In the case you dont want to label any annotations for a sample you can press `skip` or `done` but having `skip` is probably more clear.
+
 I added some additional buttons as well to the multi-label script. Since we want to be able to select more than one category I added a few extra buttons.
 
-- `done` button to press after all relevant fields have been clicked. 
+- `done` to press after all relevant fields have been clicked. 
 
 - `back` button in case you want to go back to a previous image. **WARNING** this will erase that item from the dictionary so you will have to click through all the classes you want to mark for that previous image again. 
 ![back_example](/assets/back.gif)
