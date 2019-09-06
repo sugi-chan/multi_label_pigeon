@@ -28,7 +28,7 @@ annotations = multi_label_annotate(
 ```
 Preview:
 
-![alt text](/assets/sample_usage4.gif)
+![alt text](/assets/sample_usage5.gif)
 
 ## Additional Notes
 ____
@@ -37,5 +37,8 @@ I added some additional buttons as well to the multi-label script. Since we want
 - `done` button to press after all relevant fields have been clicked. 
 
 - `back` button in case you want to go back to a previous image. **WARNING** this will erase that item from the dictionary so you will have to click through all the classes you want to mark for that previous image again. 
+![back_example](/assets/back.gif)
 
 - `clear current` **WARNING** will delete the current image from the dictionary on the back end so you can re enter the classes in case you messed one up.
+![clear_current](/assets/clear_current2.gif)
+
