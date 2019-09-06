@@ -14,13 +14,8 @@ pip install multi-label-pigeon
 ```
 
 
-## Notes
-__________
-As of now I just have this as a repo... so to use it you can clone it and either run notebooks from inside it and use the below format or modify the imports to point at the directory containing the annotation script.
+## Examples
 
-
-Examples
------
 ```
 from multi_label_pigeon import multi_label_annotate
 from IPython.display import display, Image
