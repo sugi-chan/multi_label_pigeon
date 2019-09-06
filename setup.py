@@ -9,7 +9,7 @@ from shutil import rmtree
 from setuptools import find_packages, setup, Command
 import setuptools
 
-NAME='multi-label-pigeon-jupyter'
+NAME='multi-label-pigeon'
 AUTHOR="Michael Sugimura"
 EMAIL="michaelsugimura@gmail.com"
 DESCRIPTION="A way to label multi label image datasets in jupyter"

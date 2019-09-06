@@ -1,4 +1,4 @@
-🐦 multi_class_pigeon - Quickly annotate data on Jupyter
+🐦 multi_label_pigeon - Quickly annotate data on Jupyter
 ========================
 
 This repo is a simple multiclass image extenstion of the pigeon repo by
@@ -13,7 +13,7 @@ As of now I just have this as a repo... so to use it you can clone it and either
 Examples
 -----
 ```
-from pigeon import multi_label_annotate
+from multi_label_pigeon import multi_label_annotate
 from IPython.display import display, Image
 
 annotations = multi_label_annotate(
@@ -24,7 +24,7 @@ annotations = multi_label_annotate(
 ```
 Preview:
 
-![alt text](/assets/sample_usage3.gif)
+![alt text](/assets/sample_usage4.gif)
 
 ## Additional Notes
 ____
