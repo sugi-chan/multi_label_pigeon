@@ -266,6 +266,9 @@ def multi_label_annotate(examples,
     btn = Button(description='clear current')
     btn.on_click(clear_annotation)
     buttons.append(btn)
+    btn = Button(description='skip')
+    btn.on_click(skip)
+    buttons.append(btn)
 
     box = HBox(buttons)
     display(box)
