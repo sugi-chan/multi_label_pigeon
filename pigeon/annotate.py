@@ -158,7 +158,7 @@ def multi_label_annotate(examples,
     Returns
     -------
     annotations : dict of dicts, dict of annotated examples
-        (example, {task:label... label,task2:label})
+        (example, {task:[label... label],task2:[label]})
     """
     examples = list(examples)
     if shuffle:

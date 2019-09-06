@@ -2,11 +2,8 @@
 ========================
 
 This repo is a simple multiclass image extenstion of the pigeon repo by
-@agermanidis located [here](https://github.com/agermanidis/pigeon)
-
-The base package does single class annotations for images, text, and regression. 
-I frequently find myself working on problems which are multi-class or multi-label.
-So I built an additional function to do multi-label image annotation.
+@agermanidis located [here](https://github.com/agermanidis/pigeon). Credit goes to them for building
+the annotate function for images, text, and regression for multi-class type problems. All I am doing is extending it to multi-label and multi-task type problems.
 
 ## Notes
 __________
@@ -31,7 +28,7 @@ Preview:
 
 ## Additional Notes
 ____
-I added some additional buttons as well. Since we want to be able to select more than one category I added a few extra buttons.
+I added some additional buttons as well to the multi-label script. Since we want to be able to select more than one category I added a few extra buttons.
 
 - `done` button to press after all relevant fields have been clicked. 
 
