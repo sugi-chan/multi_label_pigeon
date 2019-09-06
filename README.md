@@ -1,7 +1,7 @@
-🐦 multi_label_pigeon - Quickly annotate data on Jupyter
+🐦 multi_label_pigeon
 ========================
 
-This repo is a simple multiclass image extenstion of the pigeon repo by
+This repo is a simple multiclass image extenstion of the pigeon library by
 @agermanidis located [here](https://github.com/agermanidis/pigeon). Credit goes to them for building
 the annotate function for images, text, and regression for multi-class type problems. All I am doing is extending it to multi-label and multi-task type problems.
 
