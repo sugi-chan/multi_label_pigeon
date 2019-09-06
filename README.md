@@ -31,7 +31,7 @@ Preview:
 ![alt text](/assets/sample_usage5.gif)
 
 ## Additional Notes
-____
+
 - `skip` readded the old skip button for clarity. In the case you dont want to label any annotations for a sample you can press `skip` or `done` but having `skip` is probably more clear.
 
 I added some additional buttons as well to the multi-label script. Since we want to be able to select more than one category I added a few extra buttons.
