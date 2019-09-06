@@ -5,6 +5,15 @@ This repo is a simple multiclass image extenstion of the pigeon repo by
 @agermanidis located [here](https://github.com/agermanidis/pigeon). Credit goes to them for building
 the annotate function for images, text, and regression for multi-class type problems. All I am doing is extending it to multi-label and multi-task type problems.
 
+## Installation
+
+Can install with standard pip.
+
+```
+pip install multi-label-pigeon
+```
+
+
 ## Notes
 __________
 As of now I just have this as a repo... so to use it you can clone it and either run notebooks from inside it and use the below format or modify the imports to point at the directory containing the annotation script.
@@ -32,6 +41,6 @@ I added some additional buttons as well to the multi-label script. Since we want
 
 - `done` button to press after all relevant fields have been clicked. 
 
-- `back` button in case you want to go back to a previous image. WARNING this will erase that item from the dictionary so you will have to click through all the classes you want to mark for that previous image again. 
+- `back` button in case you want to go back to a previous image. **WARNING** this will erase that item from the dictionary so you will have to click through all the classes you want to mark for that previous image again. 
 
-- `clear current` will delete the current image from the dictionary on the back end so you can re enter the classes in case you messed one up.
+- `clear current` **WARNING** will delete the current image from the dictionary on the back end so you can re enter the classes in case you messed one up.
