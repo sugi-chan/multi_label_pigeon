@@ -30,6 +30,9 @@ Preview:
 
 ![alt text](/assets/sample_usage5.gif)
 
+**New in v0.3.0: colors!** 
+![](https://user-images.githubusercontent.com/31417712/85953171-0f0a6980-b934-11ea-8137-51718f88fd22.gif) 
+
 ## Additional Notes
 
 - `skip` readded the old skip button for clarity. In the case you dont want to label any annotations for a sample you can press `skip` or `done` but having `skip` is probably more clear.
