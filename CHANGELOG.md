@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
  - Initializing `annotation_dict` as a `collections.default_dict` to make adding new elements simpler
 ### Changed
  - When annotations are complete, current image on display is cleared
- - When `options` is not a `dictionary`, a `ValueError`
+ - When `options` is not a `dictionary`, a `ValueError` is raised
  - Asset name is displayed in `count_label`
 
 # [0.2.0] - 2019-9-6
