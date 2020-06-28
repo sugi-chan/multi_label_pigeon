@@ -221,10 +221,7 @@ def multi_label_annotate(examples, options=None, shuffle=False, display_fn=displ
 
     def del_current_annotation():
         nonlocal current_index
-        with out:
-            clear_output(wait=True)
-            display_fn(examples[current_index])
-            del annotation_dict[examples[current_index]]
+        del annotation_dict[examples[current_index]]
         current_index -= 1
         show_next()
 
@@ -255,10 +252,7 @@ def multi_label_annotate(examples, options=None, shuffle=False, display_fn=displ
     def clear_colors():
         nonlocal all_buttons
         for button in all_buttons:
-            try:
-                button.style.button_color = None
-            except Exception:
-                continue
+            button.style.button_color = None
 
     count_label = HTML()
     set_label_text()
