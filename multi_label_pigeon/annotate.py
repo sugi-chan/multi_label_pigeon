@@ -1,7 +1,16 @@
-import random
+from collections import defaultdict
 import functools
-from IPython.display import display, clear_output
-from ipywidgets import Button, Dropdown, HTML, HBox, IntSlider, FloatSlider, Textarea,ToggleButton, Output
+import random
+
+from IPython.display import clear_output, display
+from ipywidgets import (Button,
+                        Dropdown,
+                        FloatSlider,
+                        HBox,
+                        HTML,
+                        IntSlider,
+                        Output,
+                        Textarea)
 
 
 def annotate(examples,
@@ -74,7 +83,7 @@ def annotate(examples,
         raise Exception('Invalid options')
 
     buttons = []
-    
+
     if task_type == 'classification':
         use_dropdown = len(options) > 5
 
@@ -86,7 +95,7 @@ def annotate(examples,
                 add_annotation(dd.value)
             btn.on_click(on_click)
             buttons.append(btn)
-        
+
         else:
             for label in options:
                 btn = Button(description=label)
@@ -139,10 +148,7 @@ def annotate(examples,
     return annotations
 
 
-def multi_label_annotate(examples,
-                         options=None,
-                         shuffle=False,
-                         display_fn=display):
+def multi_label_annotate(examples, options=None, shuffle=False, display_fn=display):
     """
     Build an interactive widget for annotating a list of input examples.
 
@@ -151,43 +157,54 @@ def multi_label_annotate(examples,
     examples: list(any), list of items to annotate
     options: Dict
         dictionary of category names and category classes
-        ex {'gender':['male, female, unisex']}
+        ex {'gender':['male', 'female', 'unisex']}
     shuffle: bool, shuffle the examples before annotating
     display_fn: func, function for displaying an example to the user
 
     Returns
     -------
-    annotations : dict of dicts, dict of annotated examples
+    annotations : defaultdict of dicts, dict of annotated examples
         (example, {task:[label... label],task2:[label]})
     """
     examples = list(examples)
     if shuffle:
         random.shuffle(examples)
 
-    annotation_dict = {}
+    annotation_dict = defaultdict(dict)
+    all_buttons = []
 
     current_index = -1
 
     def set_label_text():
         nonlocal count_label
-        count_label.value = '{} examples annotated, {} examples left'.format(
-            len(annotation_dict), len(examples) - current_index
-        )
+        if current_index < len(examples):
+            count_label.value = (
+                '{} examples annotated, {} examples left<br>Asset name: <code>{}</code><hr>'.format(
+                    len(annotation_dict), len(examples) - current_index, examples[current_index]
+                )
+            )
+        else:
+            count_label.value = '{} examples annotated, {} examples left<br>Annoation done.<hr>'.format(
+                len(annotation_dict), len(examples) - current_index
+            )
 
     def show_next():
+        clear_colors()
         nonlocal current_index
         current_index += 1
         set_label_text()
         if current_index >= len(examples):
             for btn in buttons:
                 btn.disabled = True
-            print('Annotation done.')
+            with out:
+                clear_output()
             return
         with out:
             clear_output(wait=True)
             display_fn(examples[current_index])
 
     def go_back():
+        clear_colors()
         nonlocal current_index
         current_index -= 1
         if current_index < 0:
@@ -204,22 +221,24 @@ def multi_label_annotate(examples,
 
     def del_current_annotation():
         nonlocal current_index
-        set_label_text()
         with out:
             clear_output(wait=True)
             display_fn(examples[current_index])
             del annotation_dict[examples[current_index]]
+        current_index -= 1
+        show_next()
 
     def add_annotation(annotation_dict, annotation, task_name):
-        if examples[current_index] in annotation_dict.keys():
-            if task_name not in annotation_dict[examples[current_index]].keys():
-                annotation_dict[examples[current_index]][task_name] = [annotation]
+        if task_name not in annotation_dict[examples[current_index]].keys():
+            annotation_dict[examples[current_index]][task_name] = [annotation]
+        else:
+            # check if the annotation is already in the `annotation_dict`, if so, that means
+            # it has been clicked a second time, and we should remove both the color and
+            # the annotation
+            if annotation in annotation_dict[examples[current_index]][task_name]:
+                annotation_dict[examples[current_index]][task_name].remove(annotation)
             else:
                 annotation_dict[examples[current_index]][task_name].append(annotation)
-        else:
-            annotation_dict[examples[current_index]] = {}
-            annotation_dict[examples[current_index]][task_name] = [annotation]
-        # show_next()
 
     def skip(btn):
         show_next()
@@ -233,6 +252,14 @@ def multi_label_annotate(examples,
     def clear_annotation(btn):
         del_current_annotation()
 
+    def clear_colors():
+        nonlocal all_buttons
+        for button in all_buttons:
+            try:
+                button.style.button_color = None
+            except Exception:
+                continue
+
     count_label = HTML()
     set_label_text()
     display(count_label)
@@ -240,7 +267,7 @@ def multi_label_annotate(examples,
     if type(options) == dict:
         task_type = 'classification'
     else:
-        raise Exception('Invalid options')
+        raise ValueError('Invalid options. Must be classification dictionary.')
 
     if task_type == 'classification':
         for key, value in options.items():
@@ -248,27 +275,42 @@ def multi_label_annotate(examples,
             print(key)
             for label in value:
                 btn = MultiLabelButton(description=label, task_name=key)
-                #print(label, key)
+
                 def on_click(label, task_name, btn):
+                    # if button has a color, clear it! if not, give it a color!
+                    if btn.style.button_color is None:
+                        btn.style.button_color = 'lightgreen'
+                    else:
+                        btn.style.button_color = None
                     add_annotation(annotation_dict, label, task_name)
-                btn.button.on_click(functools.partial(on_click, label,btn.task_name))
+
+                btn.button.on_click(functools.partial(on_click, label, btn.task_name))
                 buttons.append(btn.button)
+                all_buttons.append(btn.button)
+
             box = HBox(buttons)
             display(box)
+
     print('')
     buttons = []
+
     btn = Button(description='done')
     btn.on_click(skip)
     buttons.append(btn)
+
     btn = Button(description='back')
     btn.on_click(back)
     buttons.append(btn)
+
     btn = Button(description='clear current')
     btn.on_click(clear_annotation)
     buttons.append(btn)
+
     btn = Button(description='skip')
     btn.on_click(skip)
     buttons.append(btn)
+
+    all_buttons += buttons
 
     box = HBox(buttons)
     display(box)
@@ -282,7 +324,6 @@ def multi_label_annotate(examples,
 
 
 class MultiLabelButton(object):
-
     def __init__(self, description, task_name):
         self.description = description
         self.task_name = task_name
